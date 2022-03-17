@@ -1,24 +1,65 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Form from './components/Form';
+import React, {useState} from 'react';
+import { useHistory } from 'react-router-dom';
+import { Switch, Route} from 'react-router-dom';
+import People from './views/People';
+import Planets from './views/Planets';
+
+
+
+
 
 function App() {
+  const history = useHistory()
+
+  const [form, setForm] = useState({
+    category:"people",
+  id: ""
+
+}) 
+
+
+
+
+  
+
+
+
+const onsubmithandler = e => 
+  {
+    e.preventDefault()
+    const {category,id} = form
+    history.push(`/${category}/${id}`)
+
+  }
+
+  const changeHandler = e => 
+  {
+    setForm({
+      ... form,
+      [e.target.name]: e.target.value
+
+
+    })
+    console.log("^^^^^^^^^^^^^^^^^",e.target)
+
+  }
   return (
+ 
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form form = {form} onsubmithandler = {onsubmithandler} changeHandler = {changeHandler} />
+      <Switch>
+        <Route exact path="/people/:id">
+          <People/>
+        </Route>
+        <Route exact path="/planets/:id">
+        <Planets/>
+      </Route>
+      </Switch>
     </div>
+    
   );
 }
 
